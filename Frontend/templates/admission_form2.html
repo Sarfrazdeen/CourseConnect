@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admission Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container my-5">
+        <h2 class="text-center">Course Enrollment</h2>
+
+        <!-- Admission Form -->
+        {% extends "base.html" %}
+
+        {% block content %}
+            <h2>Admission Form</h2>
+            <p>Course: {{ course_name }} ({{ course_duration }})</p>
+
+            <!-- Render the Admission Form -->
+            <form method="POST" action="{% url 'submit_enrollment' %}">
+                {% csrf_token %}
+                
+                <div class="mb-3">
+                    <label for="id_full_name" class="form-label">Full Name</label>
+                    {{ form.full_name|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_address" class="form-label">Address</label>
+                    {{ form.address|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_qualification" class="form-label">Qualification</label>
+                    {{ form.qualification|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_email" class="form-label">Email</label>
+                    {{ form.email|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_phone" class="form-label">Phone</label>
+                    {{ form.phone|add_class:"form-control" }}
+                </div>
+                <div class="mb-3">
+                    <label for="id_course" class="form-label">Course</label>
+                    <input type="text" class="form-control" value="{{ course_name }}" readonly>
+                </div>
+                <div class="mb-3">
+                    <label for="id_message" class="form-label">Additional Information</label>
+                    {{ form.message|add_class:"form-control" }}
+                </div>
+                
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </form>
+        {% endblock %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+</body>
+</html>

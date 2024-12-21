@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admission Form{% endblock %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white text-center">
+                    <h3>Admission Form</h3>
+                </div>
+                <div class="card-body">
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-{{ message.tags }}" role="alert">
+                                {{ message }}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <form method="post" action="{% url 'admission_view' %}">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="id_full_name" class="form-label">Full Name</label>
+                            {{ admission_form.full_name }}
+                            {% if admission_form.full_name.errors %}
+                                <ul class="text-danger">
+                                    {% for error in admission_form.full_name.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_email" class="form-label">Email Address</label>
+                            {{ admission_form.email }}
+                            {% if admission_form.email.errors %}
+                                <ul class="text-danger">
+                                    {% for error in admission_form.email.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_phone" class="form-label">Phone Number</label>
+                            {{ admission_form.phone }}
+                            {% if admission_form.phone.errors %}
+                                <ul class="text-danger">
+                                    {% for error in admission_form.phone.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_course" class="form-label">Select Course</label>
+                            {{ admission_form.course }}
+                            {% if admission_form.course.errors %}
+                                <ul class="text-danger">
+                                    {% for error in admission_form.course.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="id_message" class="form-label">Additional Information</label>
+                            {{ admission_form.message }}
+                            {% if admission_form.message.errors %}
+                                <ul class="text-danger">
+                                    {% for error in admission_form.message.errors %}
+                                        <li>{{ error }}</li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </div>
+
+                        <div class="text-center mt-4">
+                            <button type="submit" class="btn btn-success w-50">Submit Application</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

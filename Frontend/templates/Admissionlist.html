@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/test.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Admission List</h2>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered">
+            <thead class="table-dark">
+                <tr>
+                    <th>Id</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Course</th>
+                    <th>Phone Number</th>
+                    <th class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for admission in all_admissions %}
+                <tr>
+                    <td>{{ admission.id }}</td>
+                    <td>{{ admission.full_name }}</td>
+                    <td>{{ admission.email }}</td>
+                    <td>{{ admission.course }}</td>
+                    <td>{{ admission.phone }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'updateadmission' admission.id %}" class="btn btn-sm btn-warning me-2">Update</a>
+                        <a href="{% url 'deleteadmission' admission.id %}" class="btn btn-sm btn-danger">Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if not all_admissions %}
+    <div class="alert alert-info text-center" role="alert">
+        No admissions available.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

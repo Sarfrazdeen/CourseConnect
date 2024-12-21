@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/test.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Contact List</h2>
+
+    <table class="table table-striped table-hover table-bordered">
+        <thead class="table-dark">
+            <tr>
+                <th>Id</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Message</th>
+                <th>Phone Number</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cont in all_contacts %}
+            <tr>
+                <td>{{ cont.id }}</td>
+                <td>{{ cont.Full_name }}</td>
+                <td>{{ cont.Email }}</td>
+                <td>{{ cont.Message }}</td>
+                <td class="phone-number">{{ cont.Phone_number }}</td>
+                <td class="text-center">
+                    <a href="{% url 'update_contacts' cont.id %}" class="btn btn-sm btn-warning me-2">Update</a>
+                    <a href="{% url 'delete_contacts' cont.id %}" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    {% if not all_contacts %}
+    <div class="alert alert-info text-center" role="alert">
+        No contacts available.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

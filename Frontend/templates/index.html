@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+{% block title %}Home - JIT Academy{% endblock %}
+
+{% block content %}
+{% load static %}
+
+<!-- Hero Section -->
+<section class="hero" id="hero" style="padding: 60px 0; background-color: #f8f9fa;">
+  <div class="container-lg" style="max-width: 1200px;">
+    <div class="row align-items-center">
+      <div class="col-sm-6">
+        <h1 class="display-2 fw-bold" style="font-size: 3.5rem;">JIT ACADEMY</h1>
+        <p>JIT Academy is a software training institute that specializes in providing courses on a variety of technical and programming skills. With a focus on hands-on learning, JIT Academy offers comprehensive training in areas such as web development, software engineering, data science, and other in-demand IT skills. The academy is dedicated to equipping students with practical knowledge and industry-relevant expertise to help them excel in their professional careers.</p>
+        <a href="{% url 'admission_view' %}" 
+           class="btn btn-lg text-white fw-bold px-5 py-2 rounded-pill" 
+           style="background-color: #17a2b8; transition: all 0.3s; display: inline-block; text-decoration: none;"
+           onmouseover="this.style.backgroundColor='#138496'; this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.2)';"
+           onmouseout="this.style.backgroundColor='#17a2b8'; this.style.transform='scale(1)'; this.style.boxShadow='none';">
+           FOR ADMISSIONS!
+        </a>
+      </div>
+      <div class="col-sm-6 text-center">
+        <img src="{% static 'assets/images/jitpng.png' %}" class="img-fluid" alt="JIT logo" style="max-width: 100%; height: auto;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Services Section -->
+<section class="services" id="services" style="padding-top: 40px; padding-bottom: 40px;">
+  <div class="container">
+    <h2 class="display-5 fw-bold mb-4">Software Courses Offered</h2>
+    <div id="courseCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000" data-bs-pause="hover">
+      <div class="carousel-inner">
+        <!-- First Slide -->
+        <div class="carousel-item active">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card">
+                <img src="{% static 'assets/images/c-programming.png' %}" class="card-img-top" alt="C Programming" style="max-height: 200px; object-fit: cover;">
+                <div class="card-body" style="text-align: center;">
+                  <h5 class="card-title fw-bold" style="font-size: 1.2rem;">C Programming</h5>
+                  <p class="card-text">Learn the fundamentals of C programming for system-level and application development.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card">
+                <img src="{% static 'images/cpp.jpg' %}" class="card-img-top" alt="C++ Programming" style="max-height: 200px; object-fit: cover;">
+                <div class="card-body" style="text-align: center;">
+                  <h5 class="card-title fw-bold" style="font-size: 1.2rem;">C++ Programming</h5>
+                  <p class="card-text">Dive into object-oriented programming with C++ and build high-performance applications.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card">
+                <img src="{% static 'images/java.jpg' %}" class="card-img-top" alt="Java Development" style="max-height: 200px; object-fit: cover;">
+                <div class="card-body" style="text-align: center;">
+                  <h5 class="card-title fw-bold" style="font-size: 1.2rem;">Java Development</h5>
+                  <p class="card-text">Expertise in Java programming for building robust applications.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Second Slide -->
+        <div class="carousel-item">
+          <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card">
+                <img src="{% static 'images/python.jpg' %}" class="card-img-top" alt="Python Programming" style="max-height: 200px; object-fit: cover;">
+                <div class="card-body" style="text-align: center;">
+                  <h5 class="card-title fw-bold" style="font-size: 1.2rem;">Python Programming</h5>
+                  <p class="card-text">Master Python for data science, web development, and automation.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card">
+                <img src="{% static 'images/javascript.jpg' %}" class="card-img-top" alt="JavaScript Programming" style="max-height: 200px; object-fit: cover;">
+                <div class="card-body" style="text-align: center;">
+                  <h5 class="card-title fw-bold" style="font-size: 1.2rem;">JavaScript Programming</h5>
+                  <p class="card-text">Learn JavaScript for creating dynamic and interactive web applications.</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4 col-md-6 mb-4">
+              <div class="card">
+                <img src="{% static 'images/sql.jpg' %}" class="card-img-top" alt="SQL Development" style="max-height: 200px; object-fit: cover;">
+                <div class="card-body" style="text-align: center;">
+                  <h5 class="card-title fw-bold" style="font-size: 1.2rem;">SQL Development</h5>
+                  <p class="card-text">Become proficient in SQL for managing databases and querying data efficiently.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Carousel Controls -->
+      <button class="carousel-control-prev" type="button" data-bs-target="#courseCarousel" data-bs-slide="prev" style="position: absolute; top: 50%; transform: translateY(-50%); z-index: 1; width: 5%; left: 0;">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#courseCarousel" data-bs-slide="next" style="position: absolute; top: 50%;margin-left: 70px; transform: translateY(-50%); z-index: 1; width: 5%; right: 0;">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- About Section -->
+<section class="about" id="about" style="padding-top: 40px; padding-bottom: 40px;">
+  <div class="container">
+    <h2 class="display-5 fw-bold mb-4">About the Institute</h2>
+    <p>JIT Academy, located in Thanjavur, offers specialized software training programs to equip students with essential technical skills. The institute focuses on practical, hands-on learning to prepare students for successful careers in technology.</p>
+  </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact" id="contact" style="padding-top: 40px; padding-bottom: 40px;">
+  <div class="container text-center">
+    <h2 class="fw-bold mb-4">Get in Touch</h2>
+    <p>If you have any questions, feel free to reach out to us for more information.</p>
+    
+    <!-- Collapsible Contact Us Button -->
+    <button class="btn btn-primary btn-lg" data-bs-toggle="collapse" data-bs-target="#contact-form" style="background-color: #007bff;">
+      Contact Us
+    </button>
+
+    <!-- Collapsible Contact Form -->
+    <div id="contact-form" class="collapse mt-4">
+      <form method="post" action="{% url 'contact_us' %}">
+        {% csrf_token %}
+        {{ contact_form.as_p }} <!-- Render the form fields dynamically -->
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

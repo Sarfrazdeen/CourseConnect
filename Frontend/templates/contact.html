@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block navbar %}
+  <!-- No navbar on the contact page -->
+{% endblock %}
+
+{% block title %}Contact Us{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'assets/css/contactus.css' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h2 class="fw-bold mb-4 text-center">Contact Us</h2>
+        <p>If you have any questions, feel free to reach out to us for more information.</p>
+
+        {% if contact_form %}
+            <!-- Adjust the form action to use the correct URL for the update or new contact -->
+            <form method="POST" action="{% if contact_form.instance.id %}{% url 'update_contacts' contact_form.instance.id %}{% else %}{% url 'contact_us' %}{% endif %}">
+                {% csrf_token %}
+
+                <!-- Full Name Field -->
+                <div class="form-group">
+                    {{ contact_form.Full_name.label_tag }}
+                    {{ contact_form.Full_name }}
+                    {% if contact_form.Full_name.errors %}
+                        <div class="text-danger">
+                            {{ contact_form.Full_name.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    {{ contact_form.Email.label_tag }}
+                    {{ contact_form.Email }}
+                    {% if contact_form.Email.errors %}
+                        <div class="text-danger">
+                            {{ contact_form.Email.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Phone Number Field -->
+                <div class="form-group">
+                    {{ contact_form.Phone_number.label_tag }}
+                    {{ contact_form.Phone_number }}
+                    {% if contact_form.Phone_number.errors %}
+                        <div class="text-danger">
+                            {{ contact_form.Phone_number.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Message Field -->
+                <div class="form-group">
+                    {{ contact_form.Message.label_tag }}
+                    {{ contact_form.Message }}
+                    {% if contact_form.Message.errors %}
+                        <div class="text-danger">
+                            {{ contact_form.Message.errors.0 }}
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-primary mt-3">
+                    {% if contact_form.instance.id %}
+                        Update
+                    {% else %}
+                        Submit
+                    {% endif %}
+                </button>
+            </form>
+        {% else %}
+            <p>Form is not available. Please check the view logic.</p>
+        {% endif %}
+    </div>
+{% endblock %}

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Update Admission</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ admission_form.as_p }}  <!-- This will render all form fields -->
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+</div>
+{% endblock %}
