@@ -12,7 +12,10 @@ from django.views.generic import TemplateView
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.http import HttpResponse
-
+from django.views import View 
+from datetime import datetime
+from django.template.loader import get_template
+from xhtml2pdf import pisa
 # Home page view
 def webpage(request):
     return render(request, 'index.html')
@@ -21,7 +24,7 @@ def webpage(request):
 class ContactUsView(FormView):
     template_name = 'contact.html'
     form_class = ContactForm
-    success_url = '/'  # Redirect URL after successful form submission
+    success_url = '/'  # Homepage URL after successful form submission
 
     def form_valid(self, form):
         contact = form.save()
@@ -66,22 +69,29 @@ class ContactUsView(FormView):
             html_message=admin_message,
         )
 
-        return super().form_valid(form)
+        # Render the success message
+        return render(self.request, self.template_name, {
+            'form_status': 'success',
+        })
 
     def form_invalid(self, form):
-        return self.render_to_response(self.get_context_data(contact_form=form))
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['contact_form'] = context.get('form', None)
-        return context
-
+        # If form is invalid, render the failure message
+        return render(self.request, self.template_name, {
+            'form_status': 'failure',
+        })
 # Admission form view
+from django.core.mail import send_mail
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.utils.timezone import now
+from .forms import AdmissionForm
+
 def admission_view(request):
+    form_status = None
     if request.method == 'POST':
         admission_form = AdmissionForm(request.POST)
         if admission_form.is_valid():
-            # Save form data to the database
+            # Save the form data to the database
             admission = admission_form.save()
 
             # Send email to the client (user)
@@ -125,23 +135,91 @@ def admission_view(request):
                 html_message=admin_message,
             )
 
-            return redirect('home')  # Redirect after successful submission
+            # Success Message
+            form_status = 'success'
+        else:
+            # Failure Message
+            form_status = 'failure'
     else:
         admission_form = AdmissionForm()
 
-    return render(request, 'admission_form.html', {'admission_form': admission_form})
+    return render(request, 'admission_form.html', {'admission_form': admission_form, 'form_status': form_status})
+
 
 # List of all admissions (requires login)
 @login_required(login_url='/auth/login/')
 def admissionlists(request):
     context = {'all_admissions': Admission.objects.all()}
     return render(request, 'Admissionlist.html', context)
+def download_pdf(request):
+    
+    admissions = Admission.objects.all()  # Query all admissions
+    template_path = 'admissions_pdf_template.html'  # Create a separate template for the PDF
+
+    context = {
+        'admissions': admissions,
+    }
+
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="admissions_list.pdf"'
+    
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # Generate PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF', content_type='text/plain')
+def admission_admin(request):
+    form_status = None  # To hold success/error messages
+
+    if request.method == 'POST':
+        admission_form = AdmissionForm(request.POST)
+        if admission_form.is_valid():
+            # Save the form data to the database
+            admission_form.save()
+            return redirect('Admissionlist')  # Redirect to the admission list page
+        else:
+            form_status = 'failure'  # Display error message
+    else:
+        admission_form = AdmissionForm()  # Blank form for GET request
+
+    # Render the form template for the admin
+    return render(request, 'admin_adform.html', {'admission_form': admission_form, 'form_status': form_status})
 
 # Contact list view (requires login)
 @login_required(login_url='/auth/login/')
 def contactlists(request):
     context = {'all_contacts': contactus.objects.all()}
     return render(request, 'Contactlist.html', context)
+
+def download_contact_pdf(request):
+    # Fetch all contact data
+    all_contacts = contactus.objects.all()
+    template_path = 'contact_list_pdf.html'  # PDF-specific template
+
+    # Context for the template
+    context = {
+        'all_contacts': all_contacts,
+    }
+
+    # Create an HttpResponse for the PDF
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="contact_list.pdf"'
+
+    # Render the template into HTML
+    template = get_template(template_path)
+    html = template.render(context)
+
+    # Convert HTML to PDF
+    pisa_status = pisa.CreatePDF(html, dest=response)
+
+    # Check for errors during PDF generation
+    if pisa_status.err:
+        return HttpResponse('Error generating PDF', content_type='text/plain')
+
+    return response
 
 # Delete contact (requires login)
 @login_required(login_url='/auth/login/')
@@ -192,15 +270,12 @@ def deleteadmission(request, id):
 def adminboard(request):
     return render(request, 'admindashboard.html')
 
-class CourseListView(TemplateView):
+# Admission Form View to handle form submission and pre-filled data
+class CourseListView(View):
     template_name = 'courselist.html'
 
-class CourseListView(TemplateView):
-    template_name = 'courselist.html'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['courses'] = [
+    def get(self, request, *args, **kwargs):
+        courses = [
             {'name': 'C Programming', 'duration': '1 Month'},
             {'name': 'Python Programming', 'duration': '45 Days'},
             {'name': 'Java Programming', 'duration': '2 Months'},
@@ -213,42 +288,87 @@ class CourseListView(TemplateView):
             {'name': 'Digital Marketing', 'duration': '2 Months'},
             {'name': 'Data Science', 'duration': '4 Months'},
         ]
-        return context
-class AdmissionFormView(TemplateView):
+        return render(request, self.template_name, {'courses': courses})
+
+class AdmissionFormView(View):
     template_name = 'admission_form2.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # Retrieve course and duration from the URL parameters
-        course_name = self.request.GET.get('course', '')
-        course_duration = self.request.GET.get('duration', '')
-        context['course_name'] = course_name
-        context['course_duration'] = course_duration
-        context['form'] = AdForm()  # Provide an empty form on GET request
-        return context
+    def get(self, request, *args, **kwargs):
+        print(request.POST)
+        selected_course = request.GET.get('course', '')
+        course_duration = request.GET.get('duration', '')
 
-    def post(self, request, *args, **kwargs):
-        # Initialize form with POST data
-        form = AdForm(request.POST)
-
-        # If form is valid, process the data
-        if form.is_valid():
-            form.save()  # Save the data to the database
-            # Add success message and redirect to a success page
-            messages.success(request, 'Your admission form has been submitted successfully!')
-            return HttpResponseRedirect(reverse('success_page'))  # Redirect to the success page
-
-        # If form is invalid, re-render the form with errors and include the course info
+        # Initialize the form with the selected course if it's provided in the GET parameters
+        form = AdmissionForm(initial={'course': selected_course}) 
         return render(request, self.template_name, {
             'form': form,
-            'course_name': request.POST.get('course', ''),
-            'course_duration': request.POST.get('duration', ''),
+            'course_name': selected_course,
+            'course_duration': course_duration,
         })
-def success_page(request):
-    return render(request, 'success.html')  # Replace 'success.html' with your template
-def submit_enrollment(request):
-    # Handle the form submission logic here
-    if request.method == 'POST':
-        # Process form data
-        return HttpResponse('Form submitted successfully!')
-    return HttpResponse('This is the submit enrollment page.')
+
+    def post(self, request, *args, **kwargs):
+        selected_course = request.GET.get('course', '') 
+        course_duration = request.GET.get('duration', '')
+
+        # Ensure that the 'course' field is included in the POST data
+        if selected_course:
+            request.POST = request.POST.copy() 
+            request.POST['course'] = selected_course 
+
+        form = AdmissionForm(request.POST)
+
+        if form.is_valid():
+            # Save form data to the database
+            admission = form.save()
+
+            # Send email to the client (user)
+            client_subject = "Thank You for Your Admission Submission"
+            client_message = f"""
+            Dear {admission.full_name},
+
+            Thank you for submitting your admission form for the {admission.course} course.
+            We have successfully received your information, and our team will contact you soon.
+
+            Best regards,
+            The Team
+            """
+            client_email = admission.email
+            sender_email = "csesarfraz@example.com"
+            send_mail(
+                client_subject,
+                client_message,
+                sender_email,
+                [client_email],
+                fail_silently=False,
+            )
+
+            # Send email to the admin
+            admin_subject = "New Admission Form Submitted"
+            admin_email = "csesarfraz@example.com"
+            admin_context = {
+                'name': admission.full_name,
+                'email': admission.email,
+                'phone': admission.phone,
+                'course': admission.course,
+                'timestamp': datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+            }
+            admin_message = render_to_string('admin_email_template.html', admin_context)
+            send_mail(
+                admin_subject,
+                admin_message,
+                sender_email,
+                [admin_email],
+                fail_silently=False,
+                html_message=admin_message,
+            )
+
+            # Display success message and redirect
+            messages.success(request, "Your admission form has been successfully submitted!")
+            return redirect('home') 
+
+        else:
+            return render(request, self.template_name, {
+                'form': form,
+                'course_name': selected_course,
+                'course_duration': course_duration,
+            })

@@ -9,6 +9,16 @@
 <div class="container mt-5">
     <h2 class="text-center mb-4">Admission List</h2>
 
+    <!-- Add Admission and Download Button -->
+    <div class="d-flex justify-content-between mb-3">
+        <a href="{% url 'add_admission' %}" class="btn btn-primary">
+            Add Admission
+        </a>
+        <a href="{% url 'download_admissions' %}" class="btn btn-danger">
+            Download PDF
+        </a>
+    </div>
+
     <div class="table-responsive">
         <table class="table table-striped table-hover table-bordered">
             <thead class="table-dark">

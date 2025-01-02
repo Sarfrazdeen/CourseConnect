@@ -1,95 +1,104 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Admission Form{% endblock %}
-
 {% block content %}
-<div class="container my-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow-sm">
-                <div class="card-header bg-primary text-white text-center">
-                    <h3>Admission Form</h3>
-                </div>
-                <div class="card-body">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}" role="alert">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
+<div class="container mt-5">
+    <h2 class="text-center">Admission Form</h2>
+    <p>If you have any questions or would like to apply, please fill out the form below.</p>
 
-                    <form method="post" action="{% url 'admission_view' %}">
-                        {% csrf_token %}
-                        
-                        <div class="mb-3">
-                            <label for="id_full_name" class="form-label">Full Name</label>
-                            {{ admission_form.full_name }}
-                            {% if admission_form.full_name.errors %}
-                                <ul class="text-danger">
-                                    {% for error in admission_form.full_name.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="id_email" class="form-label">Email Address</label>
-                            {{ admission_form.email }}
-                            {% if admission_form.email.errors %}
-                                <ul class="text-danger">
-                                    {% for error in admission_form.email.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="id_phone" class="form-label">Phone Number</label>
-                            {{ admission_form.phone }}
-                            {% if admission_form.phone.errors %}
-                                <ul class="text-danger">
-                                    {% for error in admission_form.phone.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="id_course" class="form-label">Select Course</label>
-                            {{ admission_form.course }}
-                            {% if admission_form.course.errors %}
-                                <ul class="text-danger">
-                                    {% for error in admission_form.course.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="id_message" class="form-label">Additional Information</label>
-                            {{ admission_form.message }}
-                            {% if admission_form.message.errors %}
-                                <ul class="text-danger">
-                                    {% for error in admission_form.message.errors %}
-                                        <li>{{ error }}</li>
-                                    {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-
-                        <div class="text-center mt-4">
-                            <button type="submit" class="btn btn-success w-50">Submit Application</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
+    {% if form_status == 'success' %}
+        <!-- Success Message -->
+        <div class="alert alert-success text-center" role="alert">
+            <h4 class="alert-heading">Success!</h4>
+            <p>Your admission form has been submitted successfully. We will get back to you soon.</p>
+            <hr>
+            <p class="mb-0">Redirecting to the homepage in <span id="countdown">5</span> seconds...</p>
         </div>
-    </div>
+    {% elif form_status == 'failure' %}
+        <!-- Failure Message -->
+        <div class="alert alert-danger text-center" role="alert">
+            <h4 class="alert-heading">Oops!</h4>
+            <p>Something went wrong. Please try again later.</p>
+            <hr>
+            <p class="mb-0">Redirecting to the homepage in <span id="countdown">5</span> seconds...</p>
+        </div>
+    {% else %}
+        <!-- Admission Form -->
+        <form id="admission-form" method="POST" action="{% url 'admission_view' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_full_name" class="form-label">Full Name</label>
+                {{ admission_form.full_name }}
+                {% if admission_form.full_name.errors %}
+                    <div class="text-danger">
+                        {% for error in admission_form.full_name.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="id_email" class="form-label">Email Address</label>
+                {{ admission_form.email }}
+                {% if admission_form.email.errors %}
+                    <div class="text-danger">
+                        {% for error in admission_form.email.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="id_phone" class="form-label">Phone Number</label>
+                {{ admission_form.phone }}
+                {% if admission_form.phone.errors %}
+                    <div class="text-danger">
+                        {% for error in admission_form.phone.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="id_course" class="form-label">Select Course</label>
+                {{ admission_form.course }}
+                {% if admission_form.course.errors %}
+                    <div class="text-danger">
+                        {% for error in admission_form.course.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <div class="mb-3">
+                <label for="id_message" class="form-label">Additional Information</label>
+                {{ admission_form.message }}
+                {% if admission_form.message.errors %}
+                    <div class="text-danger">
+                        {% for error in admission_form.message.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
+            <button type="submit" class="btn btn-primary w-100">Submit Application</button>
+        </form>
+    {% endif %}
 </div>
+
+<script>
+    {% if form_status == 'success' or form_status == 'failure' %}
+        // Countdown before redirecting
+        let countdown = 5;
+        const countdownElement = document.getElementById('countdown');
+        const interval = setInterval(function() {
+            countdown--;
+            countdownElement.textContent = countdown;
+            if (countdown <= 0) {
+                clearInterval(interval);
+                window.location.href = "/";  // Redirect to homepage
+            }
+        }, 1000);
+    {% endif %}
+</script>
 {% endblock %}

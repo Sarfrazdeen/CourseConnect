@@ -12,7 +12,7 @@
       <div class="col-sm-6">
         <h1 class="display-2 fw-bold" style="font-size: 3.5rem;">JIT ACADEMY</h1>
         <p>JIT Academy is a software training institute that specializes in providing courses on a variety of technical and programming skills. With a focus on hands-on learning, JIT Academy offers comprehensive training in areas such as web development, software engineering, data science, and other in-demand IT skills. The academy is dedicated to equipping students with practical knowledge and industry-relevant expertise to help them excel in their professional careers.</p>
-        <a href="{% url 'admission_view' %}" 
+        <a href="{% url 'course_list' %}" 
            class="btn btn-lg text-white fw-bold px-5 py-2 rounded-pill" 
            style="background-color: #17a2b8; transition: all 0.3s; display: inline-block; text-decoration: none;"
            onmouseover="this.style.backgroundColor='#138496'; this.style.transform='scale(1.1)'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.2)';"
@@ -113,33 +113,163 @@
 </section>
 
 <!-- About Section -->
-<section class="about" id="about" style="padding-top: 40px; padding-bottom: 40px;">
-  <div class="container">
-    <h2 class="display-5 fw-bold mb-4">About the Institute</h2>
-    <p>JIT Academy, located in Thanjavur, offers specialized software training programs to equip students with essential technical skills. The institute focuses on practical, hands-on learning to prepare students for successful careers in technology.</p>
-  </div>
-</section>
+<!-- Include AOS Library CSS in the Head -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-<!-- Contact Section -->
-<section class="contact" id="contact" style="padding-top: 40px; padding-bottom: 40px;">
-  <div class="container text-center">
-    <h2 class="fw-bold mb-4">Get in Touch</h2>
-    <p>If you have any questions, feel free to reach out to us for more information.</p>
-    
-    <!-- Collapsible Contact Us Button -->
-    <button class="btn btn-primary btn-lg" data-bs-toggle="collapse" data-bs-target="#contact-form" style="background-color: #007bff;">
-      Contact Us
-    </button>
+<!-- Include AOS Library CSS in the Head -->
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
 
-    <!-- Collapsible Contact Form -->
-    <div id="contact-form" class="collapse mt-4">
-      <form method="post" action="{% url 'contact_us' %}">
-        {% csrf_token %}
-        {{ contact_form.as_p }} <!-- Render the form fields dynamically -->
-        <button type="submit" class="btn btn-primary">Submit</button>
-      </form>
+<!-- About Section -->
+ <!-- About Section -->
+<section id="about" class="py-5" style="position: relative; overflow: hidden; background-color: #f9f9f9;">
+  <!-- Decorative Background Graphics -->
+  <div class="position-absolute top-0 start-0 w-100 h-100" style="z-index: 0; background: url('{% static "assets/images/jit girls working 2 .jpg" %}') center/cover no-repeat; opacity: 0.1; filter: brightness(90%);"></div>
+
+  <div class="container-lg position-relative" style="z-index: 2;">
+    <div class="row align-items-center">
+      <!-- Text Content -->
+      <div class="col-lg-6 mb-4 mb-lg-0" data-aos="fade-right">
+        <h2 class="display-4 fw-bold text-primary mb-4">Welcome to JIT Academy</h2>
+        <p style="font-size: 1.3rem; line-height: 1.8; color: #555;">
+          JIT Academy, located in Thanjavur, is committed to providing world-class training in the field of software development. Our goal is to empower students with hands-on, practical skills that bridge the gap between learning and industry demands.
+        </p>
+        <div class="mt-4">
+          <ul class="list-unstyled">
+            <li class="mb-3 d-flex align-items-center">
+              <span class="icon-box me-3" style="width: 40px; height: 40px; background: #0d6efd; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                <i class="bi bi-lightbulb text-white"></i>
+              </span>
+              <span>Innovative teaching methods and real-world projects.</span>
+            </li>
+            <li class="mb-3 d-flex align-items-center">
+              <span class="icon-box me-3" style="width: 40px; height: 40px; background: #0d6efd; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                <i class="bi bi-award text-white"></i>
+              </span>
+              <span>Mentorship by experienced professionals.</span>
+            </li>
+            <li class="mb-3 d-flex align-items-center">
+              <span class="icon-box me-3" style="width: 40px; height: 40px; background: #0d6efd; border-radius: 50%; display: flex; justify-content: center; align-items: center;">
+                <i class="bi bi-globe text-white"></i>
+              </span>
+              <span>Personalized career guidance and global connections.</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Image & Graphic Content -->
+      <div class="col-lg-6 text-center" data-aos="fade-left">
+        <div class="position-relative">
+          <img src="{% static 'assets/images/jit boys 2.jpg' %}" alt="JIT Academy" class="img-fluid rounded" style="width: 100%; max-height: 400px; object-fit: cover; box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.2);">
+          <div class="position-absolute top-50 start-50 translate-middle rounded-circle" style="width: 100px; height: 100px; background: #0d6efd; opacity: 0.2; z-index: -1;"></div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
+
+    
+
+<!-- Include AOS Library JS at the End of the Body -->
+<script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+<script>
+  AOS.init({
+    duration: 1200, // Animation duration (in milliseconds)
+    once: true, // Animations occur only once
+  });
+</script>
+
+
+      <!-- Image Content -->
+      
+
+
+
+<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+<section id="contact" class="py-5" style="background: #f8f9fa;">
+  <div class="container">
+    <h2 class="text-center fw-bold mb-4">Contact Us</h2>
+    <p class="text-center mb-5">If you have any questions, feel free to reach out to us!</p>
+
+    <div class="row">
+      <div class="col-md-6">
+        {% if contact_form %}
+          <form method="POST" action="{% if contact_form.instance.id %}{% url 'update_contacts' contact_form.instance.id %}{% else %}{% url 'contact_us' %}{% endif %}">
+            {% csrf_token %}
+
+            <div class="form-group mb-3">
+              <label for="Full_name" class="form-label">Full Name</label>
+              {{ contact_form.Full_name }}
+              {% if contact_form.Full_name.errors %}
+                <div class="text-danger">
+                  {{ contact_form.Full_name.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="Email" class="form-label">Email</label>
+              {{ contact_form.Email }}
+              {% if contact_form.Email.errors %}
+                <div class="text-danger">
+                  {{ contact_form.Email.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group mb-3">
+              <label for="Phone_number" class="form-label">Phone Number</label>
+              {{ contact_form.Phone_number }}
+              {% if contact_form.Phone_number.errors %}
+                <div class="text-danger">
+                  {{ contact_form.Phone_number.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="form-group mb-4">
+              <label for="Message" class="form-label">Message</label>
+              {{ contact_form.Message }}
+              {% if contact_form.Message.errors %}
+                <div class="text-danger">
+                  {{ contact_form.Message.errors.0 }}
+                </div>
+              {% endif %}
+            </div>
+
+            <div class="text-center">
+              <button type="submit" class="btn btn-primary mt-3 px-5 py-3">
+                {% if contact_form.instance.id %}
+                  Update
+                {% else %}
+                  Submit
+                {% endif %}
+              </button>
+            </div>
+          </form>
+        {% else %}
+          <p class="text-danger text-center">Form is not available. Please check the view logic.</p>
+        {% endif %}
+      </div>
+
+      <div class="col-md-6 d-flex align-items-center"> 
+        <div class="card p-4">
+          <h4 class="mb-4">Our Contact Information</h4>
+          <p><strong>Address:</strong> No. 54, SNM Rahman Nagar, Keelavaasal, Thanjavur-613001</p>
+          <p><strong>Email:</strong> <a href="mailto:csesarfraz@gmail.com">csesarfraz@gmail.com</a></p>
+          <p><strong>Phone:</strong> +91 9876543210</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="text-center mt-5"> 
+  <a href="{% url 'contact_us' %}" class="btn btn-primary btn-lg rounded-pill shadow-lg">Contact Us</a>
+</div>
 {% endblock %}
+
+
+

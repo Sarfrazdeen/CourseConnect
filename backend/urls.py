@@ -33,14 +33,15 @@ urlpatterns = [
     path('adminboard/', views.adminboard, name='admin_dashboard'),
 
     # Course list page (new view for displaying courses)
-    path('courselist/', views.CourseListView.as_view(), name='course_list'),  # This is for the course list view
+     path('courselist/', views.CourseListView.as_view(), name='course_list'),  # This is for the course list view
 
     # Admission form view (for enrolling in courses)
     path('admission-formtwo/', views.AdmissionFormView.as_view(), name='admission_form2'),
-    
-    path('submit-enrollment/', views.submit_enrollment, name='submit_enrollment'),
-    
-    path('success/', views.success_page, name='success_page')
 
-    # Other existing views...
+     path('download_admissions/', views.download_pdf, name='download_admissions'),
+
+     path('download-contact-pdf/', views.download_contact_pdf, name='download_contact_pdf'),
+
+     path('add_admission/', views.admission_admin, name='add_admission')
+    
 ]

@@ -83,25 +83,16 @@ class AdForm(forms.ModelForm):
                   'college_name', 'email', 'phone', 'course', 'message']
         widgets = {
             'message': forms.Textarea(attrs={'rows': 3, 'placeholder': 'Additional Information (optional)'}),
+            'passed_out': forms.RadioSelect(choices=[(True, "Yes"), (False, "No")]),
         }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        
-        # Add CSS classes to each field
-        self.fields['full_name'].widget.attrs.update({'class': 'form-control'})
-        self.fields['address'].widget.attrs.update({'class': 'form-control'})
-        self.fields['qualification'].widget.attrs.update({'class': 'form-control'})
-        self.fields['email'].widget.attrs.update({'class': 'form-control'})
-        self.fields['phone'].widget.attrs.update({'class': 'form-control'})
-        self.fields['course'].widget.attrs.update({'class': 'form-control'})
-        self.fields['message'].widget.attrs.update({'class': 'form-control'})
-        
-        # Handle the visibility of the 'passed_out_year' field
+        self.fields['course'].choices = Admission.COURSE_CHOICES 
+        for field in self.fields.values():
+            field.widget.attrs.update({'class': 'form-control'})
         if not self.instance or not self.instance.passed_out:
             self.fields['passed_out_year'].required = False
             self.fields['passed_out_year'].widget = forms.HiddenInput()
         else:
             self.fields['passed_out_year'].widget.attrs.update({'class': 'form-control'})
-
-
