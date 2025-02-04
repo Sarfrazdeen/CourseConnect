@@ -1,10 +1,11 @@
 from django import forms
 from .models import contactus, Admission  # Ensure you are importing the Admission model
+from phonenumber_field.formfields import PhoneNumberField
 
 class ContactForm(forms.ModelForm):
     class Meta:
         model = contactus  # Ensure the model name matches your models.py
-        fields = ['Full_name', 'Email', 'Message', 'Phone_number']  # Specify fields to include
+        fields = ['Full_name', 'Email', 'Phone_number', 'Message']  # Add 'Subject' to the fields
 
     Full_name = forms.CharField(
         max_length=100,
@@ -37,10 +38,19 @@ class ContactForm(forms.ModelForm):
         })
     )
 
-class AdmissionForm(forms.ModelForm):  # Renamed the form class to AdmissionForm
+class AdmissionForm(forms.ModelForm):
+    phone = forms.CharField(
+        max_length=15,  # Adjust maximum length for the phone number
+        widget=forms.TextInput(attrs={
+            'class': 'form-control',
+            'placeholder': 'Enter your phone number',
+        }),
+        label="Phone Number"
+    )
+
     class Meta:
         model = Admission
-        fields = ['full_name', 'email', 'phone', 'course', 'message']  # Fields that should appear in the form
+        fields = ['full_name', 'email', 'phone', 'course', 'message', 'created_by_user_id']  # Fields to include in the form
 
         widgets = {
             'full_name': forms.TextInput(attrs={
@@ -50,10 +60,6 @@ class AdmissionForm(forms.ModelForm):  # Renamed the form class to AdmissionForm
             'email': forms.EmailInput(attrs={
                 'class': 'form-control',
                 'placeholder': 'Enter your email address',
-            }),
-            'phone': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Enter your phone number',
             }),
             'course': forms.Select(attrs={
                 'class': 'form-select',
@@ -73,6 +79,14 @@ class AdmissionForm(forms.ModelForm):  # Renamed the form class to AdmissionForm
             'message': 'Additional Information',
         }
 
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        # Default value for created_by_user_id if not provided
+        instance.created_by_user_id = instance.created_by_user_id or 0
+        if commit:
+            instance.save()
+        return instance
+    
 from django import forms
 from .models import Admission
 

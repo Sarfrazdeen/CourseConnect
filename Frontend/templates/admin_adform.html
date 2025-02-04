@@ -77,6 +77,17 @@
                     </div>
                 {% endif %}
             </div>
+            <div class="mb-3">
+                <label for="id_created_by_user_id" class="form-label">Created By User ID</label>
+                <input type="number" id="id_created_by_user_id" name="created_by_user_id" class="form-control" placeholder="Enter User ID">
+                {% if admission_form.created_by_user_id.errors %}
+                    <div class="text-danger">
+                        {% for error in admission_form.created_by_user_id.errors %}
+                            <p>{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </div>
             <button type="submit" class="btn btn-primary w-100">Submit Application</button>
         </form>
     {% endif %}

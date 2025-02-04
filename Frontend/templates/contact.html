@@ -24,30 +24,48 @@
         </div>
     {% else %}
         <!-- Contact Form -->
-        <form id="contact-form" method="POST" action="{% url 'contact_us' %}">
+        <form id="contact-form" method="POST" action="{% url 'contact_us' %}" onsubmit="showSpinner()">
             {% csrf_token %}
             <div class="mb-3">
-                <label for="id_Full_name" class="form-label">Full Name</label>
-                <input type="text" class="form-control" id="id_Full_name" name="Full_name" placeholder="Enter your full name" required>
+                <label for="id_full_name" class="form-label">Full Name</label>
+                <input type="text" class="form-control" id="id_full_name" name="Full_name" placeholder="Enter your full name" required>
             </div>
             <div class="mb-3">
-                <label for="id_Email" class="form-label">Email</label>
-                <input type="email" class="form-control" id="id_Email" name="Email" placeholder="Enter your email" required>
+                <label for="id_email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="id_email" name="Email" placeholder="Enter your email" required>
             </div>
             <div class="mb-3">
-                <label for="id_Phone_number" class="form-label">Phone Number</label>
-                <input type="text" class="form-control" id="id_Phone_number" name="Phone_number" placeholder="Enter your phone number" required>
+                <label for="id_phone_number" class="form-label">Phone Number</label>
+                <input type="tel" class="form-control" id="id_phone_number" name="Phone_number" 
+                       pattern="^\d{10}$" 
+                       title="Phone number must be exactly 10 digits."
+                       placeholder="Enter 10-digit phone number" required>
             </div>
+            
             <div class="mb-3">
-                <label for="id_Message" class="form-label">Message</label>
-                <textarea class="form-control" id="id_Message" name="Message" rows="4" placeholder="Enter your message" required></textarea>
+                <label for="id_message" class="form-label">Message</label>
+                <textarea class="form-control" id="id_message" name="Message" rows="4" placeholder="Enter your message" required></textarea>
             </div>
             <button type="submit" class="btn btn-primary w-100">Submit</button>
         </form>
     {% endif %}
+    
+    <!-- Loading Spinner (Hidden by default) -->
+    <div id="loading-spinner" class="text-center" style="display:none;">
+        <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Submitting your message...</p>
+    </div>
 </div>
 
 <script>
+    // Function to display the spinner when the form is submitted
+    function showSpinner() {
+        document.getElementById('contact-form').style.display = 'none';  // Hide the form
+        document.getElementById('loading-spinner').style.display = 'block';  // Show the spinner
+    }
+
     {% if form_status == 'success' or form_status == 'failure' %}
         // Countdown before redirecting
         let countdown = 5;

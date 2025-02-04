@@ -36,12 +36,21 @@ urlpatterns = [
      path('courselist/', views.CourseListView.as_view(), name='course_list'),  # This is for the course list view
 
     # Admission form view (for enrolling in courses)
-    path('admission-formtwo/', views.AdmissionFormView.as_view(), name='admission_form2'),
+    path('admission-formtwo/', views.AdmissionFormView.as_view(), name='admission_form'),
 
      path('download_admissions/', views.download_pdf, name='download_admissions'),
 
      path('download-contact-pdf/', views.download_contact_pdf, name='download_contact_pdf'),
 
-     path('add_admission/', views.admission_admin, name='add_admission')
-    
-]
+     path('contact/update_status/<int:id>/', views.update_status_cont, name='update_status_cont'),
+
+     path('admissions/update/<int:admission_id>/', views.update_admission_status, name='update_admission_status'),
+
+     path('admin/admissions/add/', views.add_admission, name='add_admission2'),
+
+     path('admissions/update_status/<int:admission_id>/', views.update_status, name='update_status'),
+
+     path('admission-list/', views.admission_list, name='admission_list'),
+
+     
+    ]

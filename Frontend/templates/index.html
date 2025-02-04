@@ -47,7 +47,7 @@
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
-                <img src="{% static 'images/cpp.jpg' %}" class="card-img-top" alt="C++ Programming" style="max-height: 200px; object-fit: cover;">
+                <img src="{% static 'assets/images/c++.png' %}" class="card-img-top" alt="C++ Programming" style="max-height: 200px; object-fit: cover;">
                 <div class="card-body" style="text-align: center;">
                   <h5 class="card-title fw-bold" style="font-size: 1.2rem;">C++ Programming</h5>
                   <p class="card-text">Dive into object-oriented programming with C++ and build high-performance applications.</p>
@@ -56,7 +56,7 @@
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
-                <img src="{% static 'images/java.jpg' %}" class="card-img-top" alt="Java Development" style="max-height: 200px; object-fit: cover;">
+                <img src="{% static 'assets/images/java.jpg' %}" class="card-img-top" alt="Java Development" style="max-height: 200px; object-fit: cover;">
                 <div class="card-body" style="text-align: center;">
                   <h5 class="card-title fw-bold" style="font-size: 1.2rem;">Java Development</h5>
                   <p class="card-text">Expertise in Java programming for building robust applications.</p>
@@ -70,7 +70,7 @@
           <div class="row">
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
-                <img src="{% static 'images/python.jpg' %}" class="card-img-top" alt="Python Programming" style="max-height: 200px; object-fit: cover;">
+                <img src="{% static 'assets/images/python.jpg' %}" class="card-img-top" alt="Python Programming" style="max-height: 200px; object-fit: cover;">
                 <div class="card-body" style="text-align: center;">
                   <h5 class="card-title fw-bold" style="font-size: 1.2rem;">Python Programming</h5>
                   <p class="card-text">Master Python for data science, web development, and automation.</p>
@@ -79,7 +79,7 @@
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
-                <img src="{% static 'images/javascript.jpg' %}" class="card-img-top" alt="JavaScript Programming" style="max-height: 200px; object-fit: cover;">
+                <img src="{% static 'assets/images/js.jpg' %}" class="card-img-top" alt="JavaScript Programming" style="max-height: 200px; object-fit: cover;">
                 <div class="card-body" style="text-align: center;">
                   <h5 class="card-title fw-bold" style="font-size: 1.2rem;">JavaScript Programming</h5>
                   <p class="card-text">Learn JavaScript for creating dynamic and interactive web applications.</p>
@@ -88,7 +88,7 @@
             </div>
             <div class="col-lg-4 col-md-6 mb-4">
               <div class="card">
-                <img src="{% static 'images/sql.jpg' %}" class="card-img-top" alt="SQL Development" style="max-height: 200px; object-fit: cover;">
+                <img src="{% static 'assets/images/sql.jpg' %}" class="card-img-top" alt="SQL Development" style="max-height: 200px; object-fit: cover;">
                 <div class="card-body" style="text-align: center;">
                   <h5 class="card-title fw-bold" style="font-size: 1.2rem;">SQL Development</h5>
                   <p class="card-text">Become proficient in SQL for managing databases and querying data efficiently.</p>
@@ -186,89 +186,45 @@
 
 
 
-<link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-
-<section id="contact" class="py-5" style="background: #f8f9fa;">
-  <div class="container">
-    <h2 class="text-center fw-bold mb-4">Contact Us</h2>
-    <p class="text-center mb-5">If you have any questions, feel free to reach out to us!</p>
-
-    <div class="row">
-      <div class="col-md-6">
-        {% if contact_form %}
-          <form method="POST" action="{% if contact_form.instance.id %}{% url 'update_contacts' contact_form.instance.id %}{% else %}{% url 'contact_us' %}{% endif %}">
-            {% csrf_token %}
-
-            <div class="form-group mb-3">
-              <label for="Full_name" class="form-label">Full Name</label>
-              {{ contact_form.Full_name }}
-              {% if contact_form.Full_name.errors %}
-                <div class="text-danger">
-                  {{ contact_form.Full_name.errors.0 }}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group mb-3">
-              <label for="Email" class="form-label">Email</label>
-              {{ contact_form.Email }}
-              {% if contact_form.Email.errors %}
-                <div class="text-danger">
-                  {{ contact_form.Email.errors.0 }}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group mb-3">
-              <label for="Phone_number" class="form-label">Phone Number</label>
-              {{ contact_form.Phone_number }}
-              {% if contact_form.Phone_number.errors %}
-                <div class="text-danger">
-                  {{ contact_form.Phone_number.errors.0 }}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="form-group mb-4">
-              <label for="Message" class="form-label">Message</label>
-              {{ contact_form.Message }}
-              {% if contact_form.Message.errors %}
-                <div class="text-danger">
-                  {{ contact_form.Message.errors.0 }}
-                </div>
-              {% endif %}
-            </div>
-
-            <div class="text-center">
-              <button type="submit" class="btn btn-primary mt-3 px-5 py-3">
-                {% if contact_form.instance.id %}
-                  Update
-                {% else %}
-                  Submit
-                {% endif %}
-              </button>
-            </div>
-          </form>
-        {% else %}
-          <p class="text-danger text-center">Form is not available. Please check the view logic.</p>
-        {% endif %}
-      </div>
-
-      <div class="col-md-6 d-flex align-items-center"> 
-        <div class="card p-4">
-          <h4 class="mb-4">Our Contact Information</h4>
-          <p><strong>Address:</strong> No. 54, SNM Rahman Nagar, Keelavaasal, Thanjavur-613001</p>
-          <p><strong>Email:</strong> <a href="mailto:csesarfraz@gmail.com">csesarfraz@gmail.com</a></p>
-          <p><strong>Phone:</strong> +91 9876543210</p>
+      <!-- Contact Section - Styled with Bootstrap Brain Component -->
+      <section id="contact-us" style="background-color: #f9f9f9; padding: 50px 20px;">
+        <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
+          <h2 style="font-size: 2em; font-weight: bold; color: #333;">Contact Us</h2>
+          <p style="color: #666; font-size: 1.1em; margin-bottom: 30px;">
+            We’d love to hear from you! Click the button below to reach out to us, and we’ll get back to you as soon as possible.
+          </p>
+          <div style="text-align: center;">
+            <a 
+              href="{% url 'contact_us' %}" 
+              style="
+                display: inline-block;
+                background-color: #007BFF;
+                color: #fff;
+                padding: 12px 30px;
+                font-size: 1.2em;
+                font-weight: bold;
+                border: none;
+                border-radius: 50px;
+                text-decoration: none;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                transition: all 0.3s ease;
+              " 
+              onmouseover="this.style.backgroundColor='#0056b3'; this.style.boxShadow='0 6px 10px rgba(0, 0, 0, 0.3)';"
+              onmouseout="this.style.backgroundColor='#007BFF'; this.style.boxShadow='0 4px 8px rgba(0, 0, 0, 0.2)';"
+            >
+              Contact Us
+            </a>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
+      </section>
+      
+      
 
-<div class="text-center mt-5"> 
-  <a href="{% url 'contact_us' %}" class="btn btn-primary btn-lg rounded-pill shadow-lg">Contact Us</a>
-</div>
+<!-- Bootstrap and Component CSS -->
+<link rel="stylesheet" href="https://unpkg.com/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://unpkg.com/bs-brain@2.0.4/components/contacts/contact-1/assets/css/contact-1.css">
+
+      
 {% endblock %}
 
 
